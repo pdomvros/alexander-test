@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <title>Άσκηση Πολλαπλής Επιλογής - Αλέξανδρος</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background-color: #000;
+      color: #FFD700;
+      padding: 20px;
+      margin: auto;
+      max-width: 900px;
+      text-align: center;
+      font-size: 125%;
+    }
+    h1 {
+      color: #FFD700;
+      margin-bottom: 15px;
+    }
+    .quiz-container {
+      background-color: #111;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: left;
+      margin: 0 auto;
+    }
+    #scoreDisplay {
+      margin-bottom: 15px;
+      font-size: 1.2em;
+    }
+    .quiz-question {
+      margin-bottom: 15px;
+    }
+    .quiz-question p {
+      margin-bottom: 5px;
+    }
+    .quiz-option {
+      display: block;
+      margin-bottom: 5px;
+      background-color: #333;
+      border-radius: 5px;
+      padding: 5px;
+    }
+    .quiz-option input[type="radio"] {
+      margin-right: 5px;
+    }
+    .quiz-option.correct {
+      background-color: #2e7d32 !important;
+      color: #fff !important;
+    }
+    .quiz-option.wrong {
+      background-color: #c62828 !important;
+      color: #fff !important;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Για Επανάληψη</h1>
+  <p>Κάνε κλικ σε μια απάντηση. Εάν είναι σωστή, πρασινίζει. Αν είναι λάθος, κοκκινίζει και θα εμφανιστεί και η σωστή.</p>
+
+  <div class="quiz-container">
+    <div id="scoreDisplay">Σκορ: 0 / 10</div>
+    <div id="quiz"></div>
+  </div>
+
+  <script>
+    // Δεδομένα κουίζ
+    const quizData = [
+      {
+        question: "1) Ο Αλέξανδρος θεωρείται ότι προώθησε την ανάμειξη των λαών μέσω...",
+        options: [
+          "Κατάργησης όλων των θρησκειών",
+          "Μεικτών γάμων και αποδοχής εθίμων",
+          "Καταπίεσης των κατακτημένων λαών",
+          "Απαγόρευσης της περσικής γλώσσας"
+        ],
+        correct: 1
+      },
+      {
+        question: "2) Ποιο ήταν το βασικό νόμισμα στην αυτοκρατορία;",
+        options: [
+          "Χρυσά δαρεικά",
+          "Αργυρά τετράδραχμα",
+          "Σύγχρονες δραχμές",
+          "Οβολός"
+        ],
+        correct: 1
+      },
+      {
+        question: "3) Ποια ήταν η κύρια πολιτική του Αλέξανδρου σχετικά με τη θρησκεία;",
+        options: [
+          "Επέβαλε αποκλειστικά τον Δωδεκάθεο",
+          "Διατήρησε πολυθρησκευτική ανοχή",
+          "Κατάργησε όλους τους τοπικούς θεούς",
+          "Έκαψε τους ναούς του Άμμωνα"
+        ],
+        correct: 1
+      },
+      {
+        question: "4) Τι σημαίνει πολυπολιτισμική κοινωνία;",
+        options: [
+          "Όλοι μιλούν την ίδια γλώσσα",
+          "Συνύπαρξη διαφορετικών λαών και πολιτισμών",
+          "Απόλυτος διαχωρισμός ομάδων",
+          "Καθεστώς ενός πολιτισμού που επικρατεί μόνο"
+        ],
+        correct: 1
+      },
+      {
+        question: "5) Ποιο από τα παρακάτω ΔΕΝ αποτελεί χαρακτηριστικό του Αλέξανδρου;",
+        options: [
+          "Γενναιότητα",
+          "Ευσέβεια",
+          "Ενίσχυση στρατιωτικής υπεροχής",
+          "Αδιαφορία για συνθήκες"
+        ],
+        correct: 3
+      },
+      {
+        question: "6) Γιατί ίδρυσε πολλές πόλεις με ελληνικά πρότυπα;",
+        options: [
+          "Για να τις εγκαταλείψει αργότερα",
+          "Ως κέντρα διάδοσης πολιτισμού και εμπορίου",
+          "Για να διώξει τους Πέρσες",
+          "Για να απαγορεύσει άλλες θρησκείες"
+        ],
+        correct: 1
+      },
+      {
+        question: "7) Ποιο από τα παρακάτω ΕΙΝΑΙ μέτρο του Αλέξανδρου;",
+        options: [
+          "Εκδίωξη περσικών οικογενειών",
+          "Παραχώρηση θέσεων σε Πέρσες στη διοίκηση",
+          "Διάσπαση του στρατού σε μικρές ομάδες",
+          "Απαγόρευση της ελληνικής γλώσσας"
+        ],
+        correct: 1
+      },
+      {
+        question: "8) Τι ονομάζουμε 'Μαζικούς Γάμους στα Σούσα';",
+        options: [
+          "Εκδήλωση προς τιμήν του Φιλίππου",
+          "Τελετή όπου παντρεύτηκαν χιλιάδες Μακεδόνες με Περσίδες",
+          "Τελετουργία για τους θεούς της Βαβυλώνας",
+          "Μια γιορτή μόνο για Έλληνες"
+        ],
+        correct: 1
+      },
+      {
+        question: "9) Ποιος βασικός στόχος επιτεύχθηκε με την έκδοση κοινού νομίσματος;",
+        options: [
+          "Περιορισμός του εμπορίου",
+          "Ανάπτυξη και ενίσχυση συναλλαγών",
+          "Διάλυση τοπικών οικονομιών",
+          "Απόλυτη εξάρτηση από τη Μακεδονία"
+        ],
+        correct: 1
+      },
+      {
+        question: "10) Ποια ιδιότητα εκτίμησαν ιδιαίτερα οι στρατιώτες στον Αλέξανδρος;",
+        options: [
+          "Την αδιαφορία του για τη φήμη",
+          "Την περιφρόνηση κινδύνων και εμψύχωση του στρατεύματος",
+          "Την απομόνωσή του από το στράτευμα",
+          "Τη διάθεσή του να μην εμπλέκεται σε μάχες"
+        ],
+        correct: 1
+      }
+    ];
+
+    let userAnswers = new Array(quizData.length).fill(null);
+    let score = 0;
+
+    // Φορτώνουμε δυναμικά τις ερωτήσεις
+    function loadQuiz() {
+      const quizContainer = document.getElementById('quiz');
+      let quizHTML = '';
+
+      quizData.forEach((q, index) => {
+        quizHTML += `
+          <div class="quiz-question" id="question${index}">
+            <p><strong>${q.question}</strong></p>
+            ${q.options.map((opt, i) => `
+              <label class="quiz-option" id="q${index}opt${i}">
+                <input type="radio" name="question${index}" value="${i}"
+                       onclick="checkMCQ(${index}, ${i})" />
+                ${opt}
+              </label>
+            `).join('')}
+          </div>
+        `;
+      });
+
+      quizContainer.innerHTML = quizHTML;
+    }
+
+    // Όταν ο χρήστης κλικάρει μια επιλογή
+    function checkMCQ(qIndex, optIndex) {
+      // Δες αν ήδη απάντησε σε αυτήν
+      if (userAnswers[qIndex] !== null) return;
+
+      const correctIdx = quizData[qIndex].correct;
+      const chosenLabel = document.getElementById(`q${qIndex}opt${optIndex}`);
+      const correctLabel = document.getElementById(`q${qIndex}opt${correctIdx}`);
+
+      // Αν είναι σωστό
+      if (optIndex === correctIdx) {
+        chosenLabel.classList.add('correct');
+        score++;
+      } else {
+        chosenLabel.classList.add('wrong');
+        // επισημαίνουμε και τη σωστή
+        correctLabel.classList.add('correct');
+      }
+
+      // Έχουμε απαντήσει
+      userAnswers[qIndex] = optIndex;
+
+      // Απενεργοποίηση radio
+      const radios = document.getElementsByName(`question${qIndex}`);
+      radios.forEach(r => r.disabled = true);
+
+      // Ενημερώνουμε score
+      document.getElementById('scoreDisplay').textContent = `Σκορ: ${score} / ${quizData.length}`;
+    }
+
+    // Μόλις φορτώσει η σελίδα, δημιουργούμε το quiz
+    window.addEventListener('DOMContentLoaded', loadQuiz);
+  </script>
+
+</body>
+</html>
